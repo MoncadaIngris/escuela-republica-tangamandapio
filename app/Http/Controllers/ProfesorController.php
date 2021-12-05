@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Profesor;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreProfesorRequest;
 use App\Http\Requests\UpdateProfesorRequest;
 
@@ -15,7 +16,9 @@ class ProfesorController extends Controller
      */
     public function index()
     {
-        //
+        $profesors = Profesor::paginate(20);
+
+        return view('profesor/indexprofesor')->with('profesors', $profesors);
     }
 
     /**
@@ -25,18 +28,70 @@ class ProfesorController extends Controller
      */
     public function create()
     {
-        //
+        return view('profesor/createprofesor');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreProfesorRequest  $request
+     * @param  \App\Http\Requests\StoreAlumnoRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProfesorRequest $request)
+    public function store(Request $request)
     {
-        //
+        $rules=[
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'sexo' => 'required|in:Femenino,Masculino',
+            'identidad' => 'required|unique:profesors,identidad|numeric|max:9999999999999',
+            'telefono' => 'required|unique:profesors,telefono|numeric|max:99999999',
+            'fecha_nacimiento' => 'required',
+            'direccion' => 'required',
+        ];
+
+        $mensaje=[
+            'nombres.required' => 'El campo del nombre no puede ser vacio',
+
+            'apeliidos.required' => 'El campo del apellido no puede ser vacio',
+
+            'sexo.required' => 'El campo del sexo no puede ser vacio',
+            'sexo.in' => 'El campo del sexo no es valido',
+
+            'identidad.required' => 'El campo de la identidad no puede ser vacio',
+            'identidad.unique' => 'El campo de la identidad debe ser único',
+            'identidad.numeric' => 'El campo de la identidad debe ser numerico',
+            'identidad.max' => 'El campo de la identidad no es valido',
+
+            'telefono.required' => 'El campo del telefono no puede ser vacio',
+            'telefono.unique' => 'El campo del telefono debe ser único',
+            'telefono.numerico' => 'El campo del telefono debe ser numerico',
+            'telefono.max' => 'El campo del telefono no es valido',
+
+            'fecha_nacimiento.required' => 'El campo del fecha de nacimiento no puede ser vacio',
+            'direccion.required' => 'El campo direccion no puede ser vacio',
+          
+        ];
+
+        $this->validate($request,$rules,$mensaje);
+
+        $nuevoProfesor = new Profesor();
+        $nuevoProfesor->nombres = $request->input('nombres');
+        $nuevoProfesor->apellidos= $request->input('apellidos');
+        $nuevoProfesor->sexo = $request->input('sexo');
+        $nuevoProfesor->identidad= $request->input('identidad');
+        $nuevoProfesor->telefono = $request->input('telefono');
+        $nuevoProfesor->fecha_nacimiento= $request->input('fecha_nacimiento');
+        $nuevoProfesor->direccion= $request->input('direccion');       
+        
+
+            $creado = $nuevoProfesor->save();
+
+        if ($creado) {
+            return redirect()->route('profesor.index')
+                ->with('mensaje', 'El profesor fue agregado exitosamente!');
+        } else {
+
+        }
     }
 
     /**
@@ -45,9 +100,9 @@ class ProfesorController extends Controller
      * @param  \App\Models\Profesor  $profesor
      * @return \Illuminate\Http\Response
      */
-    public function show(Profesor $profesor)
+    public function show($id)
     {
-        //
+
     }
 
     /**
@@ -56,9 +111,10 @@ class ProfesorController extends Controller
      * @param  \App\Models\Profesor  $profesor
      * @return \Illuminate\Http\Response
      */
-    public function edit(Profesor $profesor)
+    public function edit($id)
     {
-        //
+        $profesor=Profesor::findOrFail($id);
+        return view('profesor/editprofesor')->with('profesor', $profesor);
     }
 
     /**
@@ -68,9 +124,61 @@ class ProfesorController extends Controller
      * @param  \App\Models\Profesor  $profesor
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateProfesorRequest $request, Profesor $profesor)
+    public function update(Request $request, $id)
     {
-        //
+        $rules=[
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'sexo' => 'required|in:Femenino,Masculino',
+            'identidad' => 'required|numeric|max:9999999999999|unique:profesors,identidad,'.$id,
+            'telefono' => 'required|numeric|max:99999999|unique:profesors,telefono,'.$id,
+            'fecha_nacimiento' => 'required',
+            'direccion' => 'required',
+        ];
+
+        $mensaje=[
+            'nombres.required' => 'El campo del nombre no puede ser vacio',
+
+            'apeliidos.required' => 'El campo del apellido no puede ser vacio',
+
+            'sexo.required' => 'El campo del sexo no puede ser vacio',
+            'sexo.in' => 'El campo del sexo no es valido',
+
+            'identidad.required' => 'El campo de la identidad no puede ser vacio',
+            'identidad.unique' => 'El campo de la identidad debe ser único',
+            'identidad.numeric' => 'El campo de la identidad debe ser numerico',
+            'identidad.max' => 'El campo de la identidad no es valido',
+
+            'telefono.required' => 'El campo del telefono no puede ser vacio',
+            'telefono.unique' => 'El campo del telefono debe ser único',
+            'telefono.numerico' => 'El campo del telefono debe ser numerico',
+            'telefono.max' => 'El campo del telefono no es valido',
+
+            'fecha_nacimiento.required' => 'El campo del fecha de nacimiento no puede ser vacio',
+            'direccion.required' => 'El campo direccion no puede ser vacio',
+          
+        ];
+
+        $this->validate($request,$rules,$mensaje);
+
+        $nuevoProfesor = Profesor::findOrFail($id);
+        $nuevoProfesor->nombres = $request->input('nombres');
+        $nuevoProfesor->apellidos= $request->input('apellidos');
+        $nuevoProfesor->sexo = $request->input('sexo');
+        $nuevoProfesor->identidad= $request->input('identidad');
+        $nuevoProfesor->telefono = $request->input('telefono');
+        $nuevoProfesor->fecha_nacimiento= $request->input('fecha_nacimiento');
+        $nuevoProfesor->direccion= $request->input('direccion');       
+        
+
+            $creado = $nuevoProfesor->save();
+
+        if ($creado) {
+            return redirect()->route('profesor.index')
+                ->with('mensaje', 'El profesor fue editado exitosamente!');
+        } else {
+
+        }
     }
 
     /**

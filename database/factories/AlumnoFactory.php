@@ -14,10 +14,10 @@ class AlumnoFactory extends Factory
     public function definition()
     {
         return [
-            'fecha-nacimiento' => $this -> faker -> dateTime($max = 'now', $timezone = null),
+            'fecha_nacimiento' => $this -> faker -> dateTime($max = 'now', $timezone = null),
             'nombres' => $this -> faker -> firstName(),
             'apellidos' => $this -> faker -> lastName(),
-            'identidad' => $this -> faker->unique()-> bothify('####-####-###'),
+            'identidad' => $this -> faker->unique()-> bothify('###########'),
             'telefono' => $this -> faker->unique()-> bothify('########'),
         
             'sexo' => $this -> faker -> randomElement(['Femenino', 'Masculino']),
