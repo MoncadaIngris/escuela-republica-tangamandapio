@@ -59,11 +59,11 @@
                 href="{{route('alumno.edit',['id'=>$alumno->id])}}">Editar</a></td>
                 <td>
 
-                    <form method="post" action="{{route('alumno.borrar',['id'=>$alumno->id])}}">
+                    <button onclick="alerta()" class="btn btn-danger">Eliminar</button>
+
+                    <form id="myform" method="post" action="{{route('alumno.borrar',['id'=>$alumno->id])}}">
                         @csrf
                         @method('delete')
-
-                        <button onclick="alerta()" class="btn btn-danger">Eliminar</button>
 
                         <script>
                             function alerta()
@@ -71,7 +71,7 @@
                                 var mensaje;
                                 var opcion = confirm("Desea eliminar el alumno seleccionado");
                                 if (opcion == true) {
-                                    document.submit()
+                                    document.forms["myform"].submit();
                                 } else {
                                 
                                 }

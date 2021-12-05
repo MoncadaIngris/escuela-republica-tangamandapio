@@ -20,13 +20,13 @@
         @csrf
         <div class="form-group">
             <label for=" ">Nombre:</label>
-            <input type="text" class="form-control" name="nombres" id="nombres" 
+            <input type="text" class="form-control" name="nombres" id="nombres" maxlength="100"
             placeholder="Ingrese sus nombres" required value="{{old('nombres')}}">
         </div>
 
         <div class="form-group">
             <label for=" ">Apellido:</label>
-            <input type="text" class="form-control" name="apellidos" id="apellidos" 
+            <input type="text" class="form-control" name="apellidos" id="apellidos" maxlength="100"
             placeholder="Ingrese sus apellidos" required value="{{old('apellidos')}}">
         </div>
 
@@ -52,9 +52,23 @@
         
         <div class="form-group">
             <label for=" ">Direccion:</label>
-            <input type="text" class="form-control" name="direccion" id="direccion" 
+            <input type="text" class="form-control" name="direccion" id="direccion" maxlength="100"
             required value="{{old('direccion')}}" placeholder="Ingrese la direccion">
         </div> 
+
+        
+        <div class="form-group">
+            <label for=" ">Asignar Grado:</label>
+            <select class="selectpicker form-control" multiple name="grado" id="grado" >
+                @foreach ($grados as $grado)
+                        <option value="{{$grado->id}}" checked>{{$grado->nombre}}</option>
+                @endforeach
+            </select>
+        </div>      
+
+        <script>
+            $('select').selectpicker();
+        </script>
 
         <div class="form-group">
             <label for=" ">Sexo:</label><br>

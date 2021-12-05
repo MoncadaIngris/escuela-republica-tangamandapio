@@ -57,6 +57,19 @@
             required value="{{$profesor->direccion}}" placeholder="Ingrese la direccion">
         </div> 
 
+
+        <label for=" ">Asignar Grado:</label>
+            <select class="selectpicker form-control" multiple name="grado[]" >
+                @foreach ($grados as $grado)
+                    @foreach ($asignados as $asignado)
+                        @if ($grado->id == $asignado->id_grado)
+                            <option value="{{$grado->id}}" checked selected="selected">{{$grado->nombre}}</option>
+                        @endif
+                    @endforeach
+                        <option value="{{$grado->id}}" checked>{{$grado->nombre}}</option>
+                @endforeach
+            </select>
+
         <div class="form-group">
             <label for=" ">Sexo:</label><br>
             @if ($profesor->sexo == 'Femenino')

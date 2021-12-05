@@ -20,20 +20,21 @@
         @csrf
         <div class="form-group">
             <label for=" ">Nombre:</label>
-            <input type="text" class="form-control" name="nombre" id="nombre" 
+            <input type="text" class="form-control" name="nombre" id="nombre" maxlength="100"
             placeholder="Ingrese el nombre del grado" required value="{{old('nombre')}}">
         </div>
 
         <div class="form-group">
             <label for=" ">aula:</label>
-            <input type="number" class="form-control" name="aula" id="aula" 
-            placeholder="Ingrese el aula" required value="{{old('aula')}}">
+            <input type="number" class="form-control" name="aula" id="aula" maxlength="3"
+            placeholder="Ingrese el aula" required value="{{old('aula')}}"
+            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
         </div>
 
         <div class="form-group">
             <label for=" ">Piso:</label>
             <select name="piso" id="piso" class="form-control">
-                <option value="">Seleccione el piso</option>
+                <option value="" style="display: none">Seleccione el piso</option>
                 <option value="Arriba">Arriba</option>
                 <option value="Abajo">Abajo</option>
             </select>

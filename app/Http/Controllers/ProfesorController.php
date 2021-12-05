@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Profesor;
+use App\Models\ProfesorGrado;
+use App\Models\Grado;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreProfesorRequest;
 use App\Http\Requests\UpdateProfesorRequest;
@@ -28,7 +30,9 @@ class ProfesorController extends Controller
      */
     public function create()
     {
-        return view('profesor/createprofesor');
+        $grados = Grado::all();
+        return view('profesor/createprofesor')
+        ->with('grados', $grados);
     }
 
     /**
@@ -102,7 +106,8 @@ class ProfesorController extends Controller
      */
     public function show($id)
     {
-
+        $profesor=Profesor::findOrFail($id);
+        return view('profesor/showprofesor')->with('profesor', $profesor);
     }
 
     /**
@@ -113,8 +118,11 @@ class ProfesorController extends Controller
      */
     public function edit($id)
     {
+        $grados = Grado::all();
         $profesor=Profesor::findOrFail($id);
-        return view('profesor/editprofesor')->with('profesor', $profesor);
+        $asignados=ProfesorGrado::where('id_profesor', $id)->get();
+        return view('profesor/editprofesor')->with('profesor', $profesor)
+        ->with('grados', $grados)->with('asignados', $asignados);
     }
 
     /**
@@ -187,8 +195,10 @@ class ProfesorController extends Controller
      * @param  \App\Models\Profesor  $profesor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Profesor $profesor)
+    public function destroy($id)
     {
-        //
+        Profesor::destroy($id);
+
+        return redirect()->route('profesor.index')->with('mensaje', 'El profesor fue eliminado exitosamente!');;
     }
 }

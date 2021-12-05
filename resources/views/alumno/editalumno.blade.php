@@ -21,13 +21,13 @@
         @csrf
         <div class="form-group">
             <label for=" ">Nombre:</label>
-            <input type="text" class="form-control" name="nombres" id="nombres" 
+            <input type="text" class="form-control" name="nombres" id="nombres" maxlength="100"
             placeholder="Ingrese sus nombres" required value="{{$alumno->nombres}}">
         </div>
 
         <div class="form-group">
             <label for=" ">Apellido:</label>
-            <input type="text" class="form-control" name="apellidos" id="apellidos" 
+            <input type="text" class="form-control" name="apellidos" id="apellidos" maxlength="100"
             placeholder="Ingrese sus apellidos" required value="{{$alumno->apellidos}}">
         </div>
 

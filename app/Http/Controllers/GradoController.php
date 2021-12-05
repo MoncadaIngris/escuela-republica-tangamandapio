@@ -82,7 +82,8 @@ class GradoController extends Controller
      */
     public function show($id)
     {
-
+        $grado = Grado::findOrFail($id);
+        return view('grado/showgrado')->with('grado', $grado);
     }
 
     /**
@@ -147,8 +148,10 @@ class GradoController extends Controller
      * @param  \App\Models\Grado  $grado
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Grado $grado)
+    public function destroy($id)
     {
-        //
+        Grado::destroy($id);
+
+        return redirect()->route('grado.index')->with('mensaje', 'El grado fue eliminado exitosamente!');;
     }
 }

@@ -57,21 +57,21 @@
                 href="{{route('grado.edit',['id'=>$grado->id])}}">Editar</a></td>
                 <td>
 
-                    <form method="post" action="{{route('grado.borrar',['id'=>$grado->id])}}">
+                    <button onclick="alerta()" class="btn btn-danger">Eliminar</button>
+
+                    <form id="myform" method="post" action="{{route('grado.borrar',['id'=>$grado->id])}}">
                         @csrf
                         @method('delete')
-
-                        <button onclick="alerta()" class="btn btn-danger">Eliminar</button>
 
                         <script>
                             function alerta()
                                 {
                                 var mensaje;
-                                var opcion = confirm("Desea eliminar el cgrado seleccionado");
+                                var opcion = confirm("Desea eliminar el grado seleccionado");
                                 if (opcion == true) {
-                                    document.submit()
+                                    document.forms["myform"].submit();
                                 } else {
-                                
+                                    
                                 }
                             }
                         </script>

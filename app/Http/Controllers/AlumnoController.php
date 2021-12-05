@@ -107,7 +107,8 @@ class AlumnoController extends Controller
      */
     public function show($id)
     {
-
+        $alumno=Alumno::findOrFail($id);
+        return view('alumno/showalumno')->with('alumno', $alumno);
     }
 
     /**
@@ -195,8 +196,10 @@ class AlumnoController extends Controller
      * @param  \App\Models\Alumno  $alumno
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Alumno $alumno)
+    public function destroy($id)
     {
-        //
+        Alumno::destroy($id);
+
+        return redirect()->route('alumno.index')->with('mensaje', 'El alumno fue eliminado exitosamente!');;
     }
 }
