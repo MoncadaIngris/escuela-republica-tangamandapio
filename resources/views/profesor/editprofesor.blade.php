@@ -59,7 +59,7 @@
 
 
         <label for=" ">Asignar Grado:</label>
-            <select class="selectpicker form-control" multiple name="grado[]" >
+        <select class="selectpicker form-control" multiple name="grado" id="grado" onchange="datos()">
                 @foreach ($grados as $grado)
                     @foreach ($asignados as $asignado)
                         @if ($grado->id == $asignado->id_grado)
@@ -69,6 +69,21 @@
                         <option value="{{$grado->id}}" checked>{{$grado->nombre}}</option>
                 @endforeach
             </select>
+
+            <div class="form-group" style="display: none;">
+                <input type="text" id="grados" name="grados" class="form-control form-control-user">
+            </div>
+
+            <script>
+                $('select').selectpicker();
+    
+                function datos() {
+                    var select = $('#grado').val();
+    
+                    document.getElementById('grados').value = select;
+    
+                }
+            </script>
 
         <div class="form-group">
             <label for=" ">Sexo:</label><br>

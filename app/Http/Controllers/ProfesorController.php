@@ -51,10 +51,12 @@ class ProfesorController extends Controller
             'telefono' => 'required|unique:profesors,telefono|numeric|max:99999999',
             'fecha_nacimiento' => 'required',
             'direccion' => 'required',
+            'grados' => 'required',
         ];
 
         $mensaje=[
             'nombres.required' => 'El campo del nombre no puede ser vacio',
+            
 
             'apeliidos.required' => 'El campo del apellido no puede ser vacio',
 
@@ -73,6 +75,8 @@ class ProfesorController extends Controller
 
             'fecha_nacimiento.required' => 'El campo del fecha de nacimiento no puede ser vacio',
             'direccion.required' => 'El campo direccion no puede ser vacio',
+
+            'grados.required' => 'El campo grados no puede ser vacio',
           
         ];
 
@@ -88,7 +92,16 @@ class ProfesorController extends Controller
         $nuevoProfesor->direccion= $request->input('direccion');       
         
 
-            $creado = $nuevoProfesor->save();
+        $creado = $nuevoProfesor->save();
+
+        $grados = explode(',', $request->input('grados'));
+
+        foreach($grados as $grado){
+            $nuevoGrado = new ProfesorGrado();
+            $nuevoGrado->id_grado =  $grado;
+            $nuevoGrado->id_profesor =  $nuevoProfesor->id;
+            $creado2 = $nuevoGrado->save();
+        }
 
         if ($creado) {
             return redirect()->route('profesor.index')
@@ -142,10 +155,12 @@ class ProfesorController extends Controller
             'telefono' => 'required|numeric|max:99999999|unique:profesors,telefono,'.$id,
             'fecha_nacimiento' => 'required',
             'direccion' => 'required',
+            'grados' => 'required',
         ];
 
         $mensaje=[
             'nombres.required' => 'El campo del nombre no puede ser vacio',
+            'nombre.unique' => 'El campo del nombre ya esta en uso',
 
             'apeliidos.required' => 'El campo del apellido no puede ser vacio',
 
@@ -164,6 +179,8 @@ class ProfesorController extends Controller
 
             'fecha_nacimiento.required' => 'El campo del fecha de nacimiento no puede ser vacio',
             'direccion.required' => 'El campo direccion no puede ser vacio',
+
+            'grados.required' => 'El campo grados no puede ser vacio',
           
         ];
 
@@ -178,8 +195,22 @@ class ProfesorController extends Controller
         $nuevoProfesor->fecha_nacimiento= $request->input('fecha_nacimiento');
         $nuevoProfesor->direccion= $request->input('direccion');       
         
+        $creado = $nuevoProfesor->save();
 
-            $creado = $nuevoProfesor->save();
+        $datos = ProfesorGrado::where('id_profesor', $id)->get();
+
+        foreach($datos as $dato){
+            ProfesorGrado::destroy($dato->id);
+        }
+
+        $grados = explode(',', $request->input('grados'));
+
+        foreach($grados as $grado){
+            $nuevoGrado = new ProfesorGrado();
+            $nuevoGrado->id_grado =  $grado;
+            $nuevoGrado->id_profesor =  $nuevoProfesor->id;
+            $creado2 = $nuevoGrado->save();
+        }
 
         if ($creado) {
             return redirect()->route('profesor.index')

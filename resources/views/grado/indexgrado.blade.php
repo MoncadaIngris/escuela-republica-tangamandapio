@@ -34,6 +34,7 @@
             <th scope="col">Nombre</th>
             <th scope="col">Aula</th>
             <th scope="col">Piso</th>
+            <th scope="col">Profesores</th>
             <th scope="col">Detalles</th>
             <th scope="col">Editar</th>
             <th scope="col">Borrar</th>
@@ -47,7 +48,8 @@
                 <td>{{$grado->aula}}</td>
                 <td>{{$grado->piso}}</td>
                 
-
+                <td><a class="btn btn-info" 
+                    href="{{route('grado.profesor',['id'=>$grado->id])}}">Profesores</a></td>
 
                 <td><a class="btn btn-success" 
                 href="{{route('grado.ver',['id'=>$grado->id])}}">Detalles</a></td>

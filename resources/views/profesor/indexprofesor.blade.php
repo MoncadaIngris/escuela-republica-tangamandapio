@@ -35,6 +35,7 @@
             <th scope="col">Apellido</th>
             <th scope="col">Identidad</th>
             <th scope="col">Telefono</th>
+            <th scope="col">Grados</th>
             <th scope="col">Detalles</th>
             <th scope="col">Editar</th>
             <th scope="col">Borrar</th>
@@ -50,6 +51,8 @@
                 <td>{{$profesor->telefono}}</td>
                 
 
+                <td><a class="btn btn-info" 
+                    href="{{route('profesor.grado',['id'=>$profesor->id])}}">Grados</a></td>
 
                 <td><a class="btn btn-success" 
                 href="{{route('profesor.ver',['id'=>$profesor->id])}}">Detalles</a></td>

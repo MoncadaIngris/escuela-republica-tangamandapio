@@ -13,9 +13,11 @@ class ProfesorGradoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function profesor($id)
     {
-        //
+        $profesors = ProfesorGrado::where('id_grado', $id)->paginate(20);
+
+        return view('grado/profesor')->with('profesors', $profesors);
     }
 
     /**
@@ -23,9 +25,11 @@ class ProfesorGradoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function grado($id)
     {
-        //
+        $grados = ProfesorGrado::where('id_profesor', $id)->paginate(20);
+
+        return view('profesor/grado')->with('grados', $grados);
     }
 
     /**

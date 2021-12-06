@@ -68,3 +68,8 @@ Route::get('grado/editar/{id}',[GradoController::class, 'edit'])->name('grado.ed
 Route::put('grado/editar/{id}',[GradoController::class, 'update'])-> where('id' ,'[0-9]+');
 
 Route::delete('grado/borrar/{id}',[GradoController::class, 'destroy'])->name('grado.borrar')-> where('id' ,'[0-9]+');
+
+//RUTAS ALTERNAS
+Route::get('grado/profesor/{id}',[ProfesorGradoController::class, 'profesor'])->name('grado.profesor')-> where('id' ,'[0-9]+');
+
+Route::get('profesor/grado/{id}',[ProfesorGradoController::class, 'grado'])->name('profesor.grado')-> where('id' ,'[0-9]+');

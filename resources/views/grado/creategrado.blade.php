@@ -39,6 +39,29 @@
                 <option value="Abajo">Abajo</option>
             </select>
         </div>
+
+        <div class="form-group">
+            <label for=" ">Asignar Profesor:</label>
+            <select class="selectpicker form-control" multiple name="profesor" id="profesor" onchange="datos()">
+                @foreach ($profesors as $profesor)
+                        <option value="{{$profesor->id}}" checked>{{$profesor->nombres}} {{$profesor->apellidos}}</option>
+                @endforeach
+            </select>
+            <div class="form-group" style="display: none;">
+                <input type="text" id="profesors" name="profesors" class="form-control form-control-user">
+            </div>
+        </div>      
+
+        <script>
+            $('select').selectpicker();
+
+            function datos() {
+                var select = $('#profesor').val();
+
+                document.getElementById('profesors').value = select;
+
+            }
+        </script>
         
         <button type="submit" class="btn btn-primary" >Guardar</button>
         <button type="reset" class="btn btn-danger">borrar</button>
